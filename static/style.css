@@ -80,6 +80,12 @@ h1{
 #sw{
 	width: 33%;
 }
+#correct{
+	color: green;
+}
+#wrong{
+	color: red;
+}
 button{
 	background-color: #890AFF;
 	border-width: 0px;

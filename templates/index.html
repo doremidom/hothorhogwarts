@@ -32,6 +32,7 @@
 	</p>
 	<!-- wand and saber animation -->
 	<script>
+		var game_over = false;
 
 		$('img#saber').mouseenter(function (){
 			toggleSaber($(this))
@@ -40,7 +41,8 @@
 		})
 
 		$('img.guess').click(function(){
-			checkGuess($(this))
+			if (!(game_over)){
+			checkGuess($(this))}
 		})
 
 
@@ -81,11 +83,35 @@
 			var guess = img.attr('name')
 
 			if (answer == guess){
-				alert('correct!')
+				$('div#answer').append('<div id="correct"><h2>SCORE!</h2></div>')
 			}else{
-				alert('wrongggg ' + answer + ' ' + guess)
+				$('div#answer').append('<div id="wrong"><h2>NOPE!</h2></div>')
 			}
+
+			game_over = true;
+			startCountdown();
 		}
+
+		//begins the page reload process
+		function startCountdown(){
+			var start = 5
+
+			//add countdown text to dive
+			$('div#answer').append('<p>New song in <span id="timer">'+start+'</span></p>')
+
+			// create timer
+			var timer = setInterval(function(){
+				start--;
+				if (start == 0){
+					clearInterval(timer)
+					//reload the page
+					location.reload()
+				}
+				//change the number in the div
+				$('span#timer').text(start)
+
+			}, 1000);
+		};
 
 	</script>
 </body>
