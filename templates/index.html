@@ -4,21 +4,65 @@
 	<title>Hoth or Hogwarts?</title>
 	<link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400" rel="stylesheet">
 	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 </head>
 <body>
 	<header><img class="scale" src="{{ url_for('static', filename='header.png')}}"></header>
 	<div id="form-box">
 		<h1></h1>
 	<div id="sw">
-		<img class="scale" src="{{ url_for('static', filename='saber.gif') }}">
+		<img class="scale" id="saber" src="{{ url_for('static', filename='saber.png') }}">
 	</div>
 	<div id="spotify-container">
 		<p>THIS IS WHERE THE<BR> SPOTIFY BOX GOES</p>
 	</div>
 	<div id="hp">
-		<img class="heightscale" src="{{ url_for('static', filename='wand.png') }}">
+		<img class="heightscale" id="wand" src="{{ url_for('static', filename='wand.png') }}">
 	</div>
 	</div>
 	<div id="footer"><p>lightsaber gif <a href="http://www.angelfire.com/theforce/bishopofbattle/gifs.htm" target="blank">credit</a></footer> wand image <a href="http://img3.wikia.nocookie.net/__cb20150115092133/harrypotter/images/6/63/Harry_Potter%27s_Wand.png" target="blank">credit</a>
+
+	<!-- start/stop gif animation -->
+	<script>
+
+		$('img#saber').mouseenter(function (){
+			toggleSaber($(this))
+		}).mouseleave(function (){
+			toggleSaber($(this))
+		})
+
+
+		$('img#wand').mouseenter(function (){
+			$(this).effect('bounce', {times:2, distance: 20}, 'slow')
+		}).mouseleave(function (){
+			console.log('leaving')
+		})
+
+
+		// function to switch image and gif
+		function toggleSaber(image){
+			var image_name =image.attr('src')
+			var extension = image_name.split('.').pop()
+
+			if (extension == 'png'){
+				image.attr('src', "{{ url_for('static', filename='saber.gif')}}" )
+			}else{
+				image.attr('src', "{{ url_for('static', filename='saber.png') }}")
+			}};
+		//function to move wand
+		function moveWand(wand){
+			var degrees = 50;
+			var start = 0;
+
+			while (start < degrees) {
+				console.log(start);
+				wand.css('WebKitTransform', 'rotate('+start+')');
+				wand.css('transform', 'rotate('+start+')');
+				start ++;
+			}
+		}
+
+	</script>
 </body>
 </html>
