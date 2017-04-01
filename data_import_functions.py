@@ -1,10 +1,17 @@
 import base64
 import json
-import urllib
 import os
-import re
+import random
 
 import requests
+
+# Return data for a single track
+def get_single_track_data():
+	with open("tracks.json", "r") as f:
+		tracks = json.loads(f.read())
+		return random.choice(tracks)
+
+### The below functions are to be run as needed to update track data and aren't used on the actual web app ###
 
 # Create JSON file with all track data (so we don't have to pull it from Spotify each time)
 def create_tracks_json():
@@ -29,6 +36,8 @@ def create_tracks_json():
 		for track_data in playlist:
 			track_source = ""
 			track_type = "spotify_uri" # "spotify_uri" or "preview_url"
+			track_image = ""
+
 			if "track" in track_data:
 				track = track_data["track"]
 				if "preview_url" in track and track["preview_url"] is not None:
@@ -37,10 +46,20 @@ def create_tracks_json():
 				else:
 					track_source = track["uri"]
 					track_type = "spotify_uri"
+				if "album" in track:
+					album = track["album"]
+					if "images" in album and len(album["images"]) > 0:
+						images = album["images"]
+						# images = [image for image in images if image["width"] > 200]
+						# if len(images) > 0:
+						#	track_image = images[0]["url"]
+						images = sorted(images, key=lambda image: image["width"], reverse=True)
+						track_image = images[0]["url"]
 			track_obj = {
 				"label": label,
 				"source": track_source,
-				"type": track_type
+				"type": track_type,
+				"image": track_image
 			}
 			tracks.append(track_obj)
 
@@ -50,6 +69,8 @@ def create_tracks_json():
 			len(["" for track in tracks if track["type"] == "preview_url" and track["label"] == label]),
 			len(["" for track in tracks if track["type"] == "spotify_uri" and track["label"] == label])
 		))
+
+	print("Images available for {} of {} tracks".format(len(["" for track in tracks if track["image"] != ""]), len(tracks)))
 
 	# Write to JSON
 	with open("tracks.json", "w") as f:
