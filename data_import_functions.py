@@ -8,6 +8,7 @@ import requests
 
 # Create JSON file with all track data (so we don't have to pull it from Spotify each time)
 def create_tracks_json():
+	# Get user and playlist IDs
 	with open("keys.json", "r") as f:
 		data = json.loads(f.read())
 	spotify_data = data["spotify"]
@@ -15,27 +16,42 @@ def create_tracks_json():
 	hoth_playlist_id = spotify_data["hoth_playlist_id"]
 	hogwarts_playlist_id = spotify_data["hogwarts_playlist_id"]
 	
+	# Get track data
 	hoth_playlist = retrieve_playlist_tracks(user_id, hoth_playlist_id)
 	hogwarts_playlist = retrieve_playlist_tracks(user_id, hogwarts_playlist_id)
 	tracks = []
 
+	# Format track data with labels and relevant info
 	for playlist_data in [{"playlist": hoth_playlist, "label": "hoth"}, {"playlist": hogwarts_playlist, "label": "hogwarts"}]:
 		playlist = playlist_data["playlist"]
 		label = playlist_data["label"]
-		
-		playlist = [
-			{
-				"preview_url": track_data["track"]["preview_url"],
-				"label": label
+
+		for track_data in playlist:
+			track_source = ""
+			track_type = "spotify_uri" # "spotify_uri" or "preview_url"
+			if "track" in track_data:
+				track = track_data["track"]
+				if "preview_url" in track and track["preview_url"] is not None:
+					track_source = track["preview_url"]
+					track_type = "preview_url"
+				else:
+					track_source = track["uri"]
+					track_type = "spotify_uri"
+			track_obj = {
+				"label": label,
+				"source": track_source,
+				"type": track_type
 			}
-		for track_data in playlist
-		if "track" in track_data and "preview_url" in track_data["track"] and track_data["track"]["preview_url"] is not None
-		]
+			tracks.append(track_obj)
 
-		print("Preview URLs available for {} tracks with label {}".format(len(playlist), label))
+		print("Retrieved {} tracks with label {} ({} preview URLs, {} Spotify URIs)".format(
+			len(["" for track in tracks if track["label"] == label]),
+			label,
+			len(["" for track in tracks if track["type"] == "preview_url" and track["label"] == label]),
+			len(["" for track in tracks if track["type"] == "spotify_uri" and track["label"] == label])
+		))
 
-		tracks.extend(playlist)
-
+	# Write to JSON
 	with open("tracks.json", "w") as f:
 		f.write(json.dumps(tracks))
 
@@ -58,7 +74,6 @@ def retrieve_playlist_tracks(user_id, playlist_id):
 		else:
 			has_next = False
 
-	print("Retrieved {} tracks".format(len(tracks)))
 	return tracks
 
 
