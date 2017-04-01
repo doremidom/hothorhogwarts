@@ -27,7 +27,9 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return render_template('index.html')
+	track_data = {'label':'hoth', 'type':'preview_url', 'source':'https://p.scdn.co/mp3-preview/97133f98bf1072baa1dcd0aba849afad75bd54b4?cid=369e297fc33547b395c7aa4d7bd40b3d'}
+    
+	return render_template('index.html', track_info = track_data)
 
 @app.route('/verify', methods=['POST'])
 def handle_data():
