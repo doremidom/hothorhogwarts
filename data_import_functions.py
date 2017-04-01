@@ -7,9 +7,17 @@ import requests
 
 # Return data for a single track
 def get_single_track_data():
-	with open("tracks.json", "r") as f:
-		tracks = json.loads(f.read())
-		return random.choice(tracks)
+	tracks = [{}]
+	if os.environ.get("IS_HEROKU"):
+		url = os.environ.get("TRACKS_JSON_URL")
+		if url:
+			resp = requests.get(url)
+			if resp.status_code == 200:
+				tracks = json.loads(resp.content)
+	else:
+		with open("tracks.json", "r") as f:
+			tracks = json.loads(f.read())
+	return random.choice(tracks)
 
 ### The below functions are to be run as needed to update track data and aren't used on the actual web app ###
 
