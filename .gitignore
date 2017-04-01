@@ -1,3 +1,6 @@
 keys.json
+tracks.json
 tmp/*
 venv/*
+.DS_Store
+*.pyc
