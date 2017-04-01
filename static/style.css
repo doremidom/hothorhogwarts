@@ -10,6 +10,13 @@ header{
 header h1{
 	font-size: 50px;
 }
+#footer{
+	position: fixed;
+	bottom: 0;
+	margin: auto;
+	width: 100%;
+	text-align: center;
+}
 body {
     height: 100%;
     margin: 0;  
@@ -26,17 +33,10 @@ a{
 }
 
 body {
-background: -moz-linear-gradient(45deg, rgba(255,0,0,1) 0%, rgba(137,10,255,1) 100%); /* ff3.6+ */
-background: -webkit-gradient(linear, left bottom, right top, color-stop(0%, rgba(255,0,0,1)), color-stop(100%, rgba(137,10,255,1))); /* safari4+,chrome */
-background: -webkit-linear-gradient(45deg, rgba(255,0,0,1) 0%, rgba(137,10,255,1) 100%); /* safari5.1+,chrome10+ */
-background: -o-linear-gradient(45deg, rgba(255,0,0,1) 0%, rgba(137,10,255,1) 100%); /* opera 11.10+ */
-background: -ms-linear-gradient(45deg, rgba(255,0,0,1) 0%, rgba(137,10,255,1) 100%); /* ie10+ */
-background: linear-gradient(45deg, rgba(255,0,0,1) 0%, rgba(137,10,255,1) 100%); /* w3c */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#890AFF', endColorstr='#ff0000',GradientType=1 ); /* ie6-9 */font-family: 'Josefin Sans', sans-serif;
+background-color: black;
 font-weight: 400;
-background-repeat: no-repeat;
-background-attachment: fixed;
-color: black;
+color: white;
+font-family: 'Josefin Sans';
 }
 h1{
 	font-weight: 300;
@@ -48,9 +48,8 @@ h1{
 	padding-top: 5px;
 }
 #form-box{
-	background-color: white;
-	width: 60vw;
-	box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.2);
+	background-color: black;
+	width: 80vw;
 	height: auto;
 	position: relative;
 	top: 5%;
@@ -58,8 +57,23 @@ h1{
 	padding: 10px;
 	text-align: center;
 	font-size: 24px;
+	display: flex;
 }
-
+.scale{
+	width: 100%;
+}
+.heightscale{
+	height: 50%;
+}
+#spotify-container{
+	width: 33%;
+}
+#hp{
+	width: 33%;
+}
+#sw{
+	width: 33%;
+}
 button{
 	background-color: #890AFF;
 	border-width: 0px;
