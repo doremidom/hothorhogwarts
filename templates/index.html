@@ -8,7 +8,16 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 </head>
 <body>
+<!-- start audio -->
+<!--
+<audio autoplay>
+	<source src="{{track_info['source']}}" type="audio/mp3">
+</audio>
+-->
 
+<div id="countdown">
+	<span class="timer-num">30</span>
+</div>
 
 
 	<header><img class="scale" src="{{ url_for('static', filename='header.png')}}"></header>
@@ -41,6 +50,10 @@
 	<!-- wand and saber animation -->
 	<script>
 		var game_over = false;
+
+		//set game timer
+		$(setTimer(30, $('span.timer-num')))
+
 		//animate saber
 		$('img#saber').mouseenter(function (){
 			toggleSaber($(this))
@@ -52,6 +65,12 @@
 		$('img.guess').click(function(){
 			if (!(game_over)){
 			checkGuess($(this))}
+
+			//remove countdown
+			$('div#countdown').css('display', 'none')
+
+			//stop countdown
+			clearInterval(timer)
 		})
 		//animate wand
 		$('img#wand').mouseenter(function (){
@@ -72,7 +91,6 @@
 				console.log('click');
 			// }, 1000);
 		});
- 
 
 		// function to switch image and gif
 		function toggleSaber(image){
@@ -112,7 +130,7 @@
 			}
 
 			game_over = true;
-			startCountdown();
+			startCountdown(5);
 		}
 
 		function addAlbumArt(){
@@ -120,25 +138,34 @@
 		}
 
 		//begins the page reload process
-		function startCountdown(){
-			var start = 5
-
+		function startCountdown(start){
 			//add countdown text to dive
 			$('div#answer').append('<p>New song in <span id="timer">'+start+'</span></p>')
 
 			// create timer
+			setTimer(5, $('span#timer'), true)
+			
+		};
+
+		function setTimer(start, div, guess=false){
 			var timer = setInterval(function(){
 				start--;
 				if (start == 0){
 					clearInterval(timer)
-					//reload the page
+					//reload the page if its a guess
+					if (guess){
 					location.reload()
+					}else{
+						alert("You didn't guess in time! Try again.")
+					}
+				}
+				if (start == 10){
+					div.css('color','red')
 				}
 				//change the number in the div
-				$('span#timer').text(start)
-
+				div.text(start)
 			}, 1000);
-		};
+		}
 
 	</script>
 </body>
