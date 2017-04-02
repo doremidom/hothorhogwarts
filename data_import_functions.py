@@ -8,7 +8,10 @@ import requests
 def get_embed_contents(source):
 	url = "https://embed.spotify.com/?uri={}".format(source)
 	resp = requests.get(url)
-	return resp.content
+	contents = resp.content
+	contents = contents.replace('"GET","/token"', '"GET", "https://open.spotify.com/token"')
+	# print(contents)
+	return contents
 
 # Return data for a single track
 def get_single_track_data():

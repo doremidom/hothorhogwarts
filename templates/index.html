@@ -67,10 +67,10 @@
 			// });
 			// alert($('iframe#spotify').contents().find('button').attr('class'))
 			console.log('iframe loaded!');
-			window.setTimeout(function() {
-				$('#play-button').click();
+			// window.setTimeout(function() {
+				$('iframe#spotify').contents().find('#play-button').click();
 				console.log('click');
-			}, 1000);
+			// }, 1000);
 		});
  
 
