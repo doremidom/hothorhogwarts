@@ -1,5 +1,6 @@
 keys.json
 tracks.json
+tracks_test.json
 tmp/*
 venv/*
 .DS_Store
