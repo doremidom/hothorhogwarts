@@ -70,9 +70,11 @@ h1{
 }
 #answer{
 	width: 33%;
+	z-index: 100;
 }
 #spotify_box{
 	opacity: 0;
+	z-index: -10;
 }
 #hp{
 	width: 33%;
