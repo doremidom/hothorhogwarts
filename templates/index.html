@@ -156,7 +156,8 @@
 					if (guess){
 					location.reload()
 					}else{
-						alert("You didn't guess in time! Try again.")
+						//alert("You didn't guess in time! Click Refresh to play again.")
+						$('div#answer').append('<p>You didn\'t guess in time! Click <a href="/">here</a> to play again.</p>');
 					}
 				}
 				if (start == 10){
