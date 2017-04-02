@@ -85,6 +85,9 @@ def create_tracks_json():
 
 	print("Images available for {} of {} tracks".format(len(["" for track in tracks if track["image"] != ""]), len(tracks)))
 
+	# Only use tracks with preview URLs
+	tracks = [track for track in tracks if track["type"] == "preview_url"]
+
 	# Write to JSON
 	with open("tracks.json", "w") as f:
 		f.write(json.dumps(tracks))
