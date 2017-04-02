@@ -38,7 +38,12 @@ def handle_data():
 
 	return render_template('verify.html')
 
-
+@app.route('/embed_player')
+def embed():
+    uri = request.args.get('uri')
+    print(request.args)
+    contents = imp.get_embed_contents(uri)
+    return render_template('embed_player.html', contents=contents)
 
 @app.route('/confirm', methods=['GET', 'POST'])
 def show_confirmation():

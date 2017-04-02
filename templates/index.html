@@ -24,7 +24,7 @@
 			<source src="{{track_info['source']}}" type="audio/mp3">
 		</audio>
 		{%else%}
-		<iframe id="spotify" src="https://embed.spotify.com/?uri={{track_info['source']}}" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
+		<iframe id="spotify" src="/embed_player?uri={{track_info['source']}}" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
 
 		{%endif%}
 
@@ -61,11 +61,16 @@
 		})
 
 		//autoplay workaround for spotify
-		$(function() {
+		$('iframe#spotify').on('load', function() {
 			// $('iframe').contents().find('button').click(function() {
-   // 			alert('click');
+   			// alert('click');
 			// });
-			alert($('iframe#spotify').contents().find('button').attr('class'))
+			// alert($('iframe#spotify').contents().find('button').attr('class'))
+			console.log('iframe loaded!');
+			window.setTimeout(function() {
+				$('#play-button').click();
+				console.log('click');
+			}, 1000);
 		});
  
 

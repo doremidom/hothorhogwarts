@@ -5,6 +5,11 @@ import random
 
 import requests
 
+def get_embed_contents(source):
+	url = "https://embed.spotify.com/?uri={}".format(source)
+	resp = requests.get(url)
+	return resp.content
+
 # Return data for a single track
 def get_single_track_data():
 	tracks = [{}]
