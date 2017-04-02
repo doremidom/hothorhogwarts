@@ -8,19 +8,27 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 </head>
 <body>
-<!-- start audio if track has a preview -->
-	{%if track_info['type'] == 'preview_url'%}
-	<audio autoplay>
-		<source src="{{track_info['source']}}" type="audio/mp3">
-	</audio>
-	{%endif%}
+
+
+
 	<header><img class="scale" src="{{ url_for('static', filename='header.png')}}"></header>
 	<div id="form-box">
 	<div id="sw">
 		<img class="scale guess" id="saber" name='hoth' src="{{ url_for('static', filename='saber.png') }}">
 	</div>
 	<div id="answer">
-		<div id="spotify_box"><p>THIS IS WHERE THE<BR> SPOTIFY BOX GOES</p></div>
+		<div id="spotify_box">
+		{%if track_info['type'] == 'preview_url'%}
+		<!-- start audio if track has a preview -->
+		<audio autoplay>
+			<source src="{{track_info['source']}}" type="audio/mp3">
+		</audio>
+		{%else%}
+		<iframe id="spotify" src="https://embed.spotify.com/?uri={{track_info['source']}}" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
+
+		{%endif%}
+
+	</div>
 	</div>
 	<div id="hp">
 		<img class="heightscale guess" id="wand" name='hogwarts' src="{{ url_for('static', filename='wand.png') }}">
@@ -33,25 +41,33 @@
 	<!-- wand and saber animation -->
 	<script>
 		var game_over = false;
-
+		//animate saber
 		$('img#saber').mouseenter(function (){
 			toggleSaber($(this))
 		}).mouseleave(function (){
 			toggleSaber($(this))
 		})
 
+		//check guess
 		$('img.guess').click(function(){
 			if (!(game_over)){
 			checkGuess($(this))}
 		})
-
-
+		//animate wand
 		$('img#wand').mouseenter(function (){
 			$(this).effect('bounce', {times:2, distance: 20}, 'slow')
 		}).mouseleave(function (){
 			console.log('leaving')
 		})
 
+		//autoplay workaround for spotify
+		$(function() {
+			// $('iframe').contents().find('button').click(function() {
+   // 			alert('click');
+			// });
+			alert($('iframe#spotify').contents().find('button').attr('class'))
+		});
+ 
 
 		// function to switch image and gif
 		function toggleSaber(image){
@@ -82,6 +98,8 @@
 			var answer = "{{track_info['label']}}"
 			var guess = img.attr('name')
 
+			addAlbumArt();
+
 			if (answer == guess){
 				$('div#answer').append('<div id="correct"><h2>SCORE!</h2></div>')
 			}else{
@@ -90,6 +108,10 @@
 
 			game_over = true;
 			startCountdown();
+		}
+
+		function addAlbumArt(){
+			$('div#answer').append("<img class='scale' src={{track_info['image']}}>")
 		}
 
 		//begins the page reload process
