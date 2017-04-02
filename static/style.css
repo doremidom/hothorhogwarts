@@ -82,6 +82,19 @@ h1{
 #sw{
 	width: 33%;
 }
+#countdown{
+    margin: auto;
+    font-size: 70px;
+    top: 45%;
+    padding: 10px;
+    position: absolute;
+    left:45%;
+    z-index: 140;
+    border: 1px white solid;
+    border-radius: 100px;
+    min-width: 70px;
+    text-align: center;
+}
 #correct{
 	color: green;
 }
